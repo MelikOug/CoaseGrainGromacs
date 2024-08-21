@@ -1,9 +1,9 @@
 #!/bin/bash
 
 #PBS -lwalltime=08:00:00
-#PBS -lselect=1:ncpus=8:mem=32gb
+#PBS -lselect=1:ncpus=16:mem=32gb
 
-#PBS -N 0201_900-101
+#PBS -N name_here
 
 cd $PBS_O_WORKDIR
 
@@ -12,12 +12,13 @@ module load tools/prod
 module load GROMACS/2021.5-foss-2021b
 
 # Define file names
+# Change these
 name="0201"
 ratio="900-101"
 folder1="Lambda"
 folder2="Lambda/${name}"
 folder3="Lambda/${name}/${ratio}"
-lambda_output_folder="${folder3}/Lambda_Files"
+lambda_output_folder="${folder3}/Lambda_Files" # Output folder for all the lambda runs
 
 input_structure="${folder3}/CG_WAT_TEA_${ratio}.pdb"
 input_topology="${folder3}/mixtop_${ratio}.top"
@@ -25,17 +26,12 @@ minimisation_mdp="${folder1}/minim.mdp"
 nvt_mdp="${folder1}/nvt.mdp"
 npt_mdp="${folder1}/npt.mdp"
 prod_run_mdp="${folder3}/lambda.mdp"
-output_directory="${folder3}/Other_Outputs"
+output_directory="${folder3}/Other_Outputs" #Equilibration run outputs
 output_structure="${output_directory}/output.gro"
 output_tpr="${output_directory}/output.tpr"
 
 # Ensure output directory exists
 mkdir -p ${output_directory}
-
-# Log files for capturing command output and errors
-log_file="${output_directory}/gromacs_workflow_HPC.log"
-err_file="${output_directory}/gromacs_workflow_HPC.err"
-echo "Logging to ${log_file} and ${err_file}"
 
 # Step 1: Energy Minimisation
 echo "Running energy minimisation..."
@@ -107,4 +103,5 @@ for i in {0..14}; do
 
 done
 
+# Use BAR method to find Free Energy of Solvation
 gmx bar -f ${lambda_output_folder}/lambda_0.xvg ${lambda_output_folder}/lambda_1.xvg ${lambda_output_folder}/lambda_2.xvg ${lambda_output_folder}/lambda_3.xvg ${lambda_output_folder}/lambda_4.xvg ${lambda_output_folder}/lambda_5.xvg ${lambda_output_folder}/lambda_6.xvg ${lambda_output_folder}/lambda_7.xvg ${lambda_output_folder}/lambda_8.xvg ${lambda_output_folder}/lambda_9.xvg ${lambda_output_folder}/lambda_10.xvg ${lambda_output_folder}/lambda_11.xvg ${lambda_output_folder}/lambda_12.xvg ${lambda_output_folder}/lambda_13.xvg ${lambda_output_folder}/lambda_14.xvg -o ${folder3}/bar.xvg -oi ${folder3}/barint.xvg -oh ${folder3}/histo.xvg -prec 8
