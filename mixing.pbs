@@ -1,0 +1,100 @@
+#!/bin/bash
+
+#PBS -lwalltime=08:00:00
+#PBS -lselect=1:ncpus=25:mem=32gb
+
+#PBS -N gmx_sim_mix2_100-0
+
+
+cd $PBS_O_WORKDIR
+
+module purge
+module load tools/prod
+module load GROMACS/2021.5-foss-2021b
+
+
+
+# Define file names
+name="100-0"
+folder="mix_data_0201_0615/mix_${name}"
+
+input_structure="${folder}/CG_WAT_TEA_${name}.pdb"
+input_topology="${folder}/mixtop.top"
+minimisation_mdp="${folder}/minim.mdp"
+nvt_mdp="${folder}/nvt.mdp"
+npt_mdp="${folder}/npt.mdp"
+prod_run_mdp="${folder}/prod_run.mdp"
+output_directory="${folder}"
+output_structure="${output_directory}/output.gro"
+output_tpr="${output_directory}/output.tpr"
+index_file="${output_directory}/index.ndx"
+traj_file="${output_directory}/trajectory.xtc"
+
+# Ensure output directory exists
+mkdir -p ${output_directory}
+
+# Log files for capturing command output and errors
+log_file="${output_directory}/gromacs_workflow_mixing_HPC.log"
+err_file="${output_directory}/gromacs_workflow_mixing_HPC.err"
+echo "Logging to ${log_file} and ${err_file}"
+
+# Step 1: Energy Minimisation
+echo "Running energy minimisation..."
+gmx  grompp -f ${minimisation_mdp} -c ${input_structure} -p ${input_topology} -o ${output_directory}/em.tpr 
+mpirun gmx_mpi  mdrun -v -deffnm ${output_directory}/em 
+
+# Step 2: NVT
+echo "Running NVT..."
+gmx  grompp -f ${nvt_mdp} -c ${output_directory}/em.gro -p ${input_topology} -o ${output_directory}/nvt.tpr 
+mpirun gmx_mpi  mdrun -v -deffnm ${output_directory}/nvt 
+
+# Step 3: NPT
+echo "Running NPT..."
+gmx  grompp -f ${npt_mdp} -c ${output_directory}/nvt.gro -p ${input_topology} -o ${output_directory}/npt.tpr 
+mpirun gmx_mpi  mdrun -v -deffnm ${output_directory}/npt 
+
+echo "Extracting energy, pressure, and volume data from npt.edr"
+# Define input energy file
+energy_file="${output_directory}/npt.edr"
+# Define output files
+energy_output="${output_directory}/npt_energy_${name}.xvg"
+pressure_output="${output_directory}/npt_pressure_${name}.xvg"
+volume_output="${output_directory}/npt_volume_${name}.xvg"
+density_output="${output_directory}/npt_density_${name}.xvg"
+
+# Extract Energy
+echo 1 4 5 6 8 | gmx  energy -f ${energy_file} -o ${energy_output}
+
+
+
+# Extract Pressure
+echo "Pressure" | gmx  energy -f ${energy_file} -o ${pressure_output} 
+# Extract Volume
+echo "Volume" | gmx  energy -f ${energy_file} -o ${volume_output} 
+# Extract Density
+echo "Density" | gmx  energy -f ${energy_file} -o ${density_output} 
+
+# Step 4: Production Run
+echo "Running Production Run..."
+gmx  grompp -f ${prod_run_mdp} -c ${output_directory}/npt.gro -p ${input_topology} -o ${output_directory}/prod_run.tpr
+mpirun gmx_mpi  mdrun -v -deffnm ${output_directory}/prod_run 
+
+echo "Extracting energy, pressure, and volume data from prod_run.edr"
+# Define input energy file
+energy_file="${output_directory}/prod_run.edr"
+# Define output files
+energy_output="${output_directory}/energy_${name}.xvg"
+pressure_output="${output_directory}/pressure_${name}.xvg"
+volume_output="${output_directory}/volume_${name}.xvg"
+density_output="${output_directory}/density_${name}.xvg" 
+
+# Extract Energy
+echo 1 4 5 6 8 | gmx  energy -f ${energy_file} -o ${energy_output}
+# Extract Pressure
+echo "Pressure" | gmx  energy -f ${energy_file} -o ${pressure_output} 
+# Extract Volume
+echo "Volume" | gmx  energy -f ${energy_file} -o ${volume_output} 
+# Extract Density
+echo "Density" | gmx  energy -f ${energy_file} -o ${density_output} 
+
+echo "Extraction completed successfully."
