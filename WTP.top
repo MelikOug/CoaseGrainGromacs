@@ -1,0 +1,61 @@
+; Include force field parameters (if needed)
+; #include "forcefield.itp"
+
+[ defaults ]
+; nbfunc        comb-rule       gen-pairs       fudgeLJ fudgeQQ
+1               2               yes             1.0     1.0
+
+[ atomtypes ]
+; name  bond_type    mass    charge  ptype      sigma       epsilon
+  W     W            20.0    0.0     A          0.200000    0.700000
+  T     T            20.0    0.0     A          0.200000    0.700000
+  P     P            50.0    0.0     A          0.400000    0.700000
+
+[ nonbond_params ]
+; i     j     func    sigma (nm)   epsilon (kJ/mol)
+  W     W     1       0.300        0.700
+  T     T     1       0.300        0.700
+  P     P     1       0.300        0.700
+  W     T     1       0.300        0.700
+  W     P     1       0.300        0.800  
+  T     P     1       0.300        1.200
+
+[ moleculetype ]
+; Name            nrexcl
+CGW              1
+
+[ atoms ]
+;   nr  type  resnr  residue  atom  cgnr  charge    mass
+    1    W     1     CGW      W     1     0.0      20.0
+
+[ moleculetype ]
+; Name            nrexcl
+CGT              1
+
+[ atoms ]
+;   nr  type  resnr  residue  atom  cgnr  charge    mass
+    1    T     1     CGT      T     1     0.0      20.0
+
+[ moleculetype ]
+; Name            nrexcl
+CGP              1
+
+[ atoms ]
+;   nr  type  resnr  residue  atom  cgnr  charge    mass
+    1    P     1     CGP      P     1     0.0      50.0  ; Added polymer particle
+
+;#ifdef POSRES_CGP
+;#include "posre_CGP.itp"
+;#endif
+
+[ system ]
+; Name
+Mixture of Water, TEA, and Polymer
+
+[ molecules ]
+; Compound        #mols
+CGW              10000
+CGT              10000
+CGP              100
+
+
