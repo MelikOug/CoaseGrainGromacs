@@ -1,0 +1,56 @@
+; RUN CONTROL PARAMETERS
+integrator               = md        ; Algorithm (md = molecular dynamics)
+nsteps                  = 5000000   ; 20ns 
+dt                      = 0.002   ; 2 fs or 0.002ps
+
+; OUTPUT CONTROL OPTIONS
+nstxout                  = 200        ; Save coordinates every .2 ps
+nstvout                  = 0      ; Save velocities every .2 ps
+nstenergy                = 1000      ; Save energies every .2 ps
+nstlog                   = 1000      ; Update the log file every .2 ps
+nstxout-compressed       = 1000      ; Save compressed coordinates every .2 ps
+
+; NEIGHBORSEARCHING PARAMETERS
+nstlist                  = 50        ; Frequency to update neighbor list
+ns_type                  = grid      ; Method to determine neighbor list (simple, grid)
+rlist                    = 1.2       ; Cutoff for short-range neighbor list (in nm)
+
+; OPTIONS FOR ELECTROSTATICS AND VDW
+coulombtype              = cut-off       ; Treatment of long range electrostatic interactions
+rcoulomb                 = 1.2       ; Short-range electrostatic cutoff (in nm)
+vdwtype                  = cut-off   ; Method for Van der Waals interactions
+rvdw                     = 1.2       ; Short-range Van der Waals cutoff (in nm)
+
+; FOURIER GRID PARAMETERS FOR PME
+fourierspacing           = 0.12      ; Grid spacing for FFT
+pme_order                = 4         ; Interpolation order for PME
+ewald_rtol               = 1e-5      ; Relative strength of Ewald-shifted potential at rcoulomb
+
+; TEMPERATURE COUPLING
+tcoupl                   = V-rescale ; Modified Berendsen thermostat
+tc-grps                  = System    ; Groups to couple separately to the heat bath
+tau_t                    = 0.1       ; Time constant for temperature coupling (in ps)
+ref_t                    = 300       ; Reference temperature (in K)
+
+; PRESSURE COUPLING
+pcoupl                   = Parrinello-Rahman        ; Pressure coupling
+pcoupltype               = isotropic        ; Isotropic pressure coupling
+tau_p                    = 12.0              ; Time constant for pressure coupling (in ps)
+ref_p                    = 1.0              ; Reference pressure (in bar)
+compressibility          = 4.5e-5           ; Compressibility of water (in bar^-1)
+
+; PERIODIC BOUNDARY CONDITIONS
+pbc                      = xyz       ; Periodic boundary conditions in all directions
+
+; Dispersion correction
+DispCorr                 = EnerPres      ; Dispersion correction for energy and pressure
+
+; VELOCITY GENERATION
+gen_vel                  = no        ; Do not generate velocities, continuing from previous run
+
+; BONDS
+constraints              = all-bonds ; Constrain all bonds
+constraint_algorithm     = LINCS     ; Algorithm to solve bond constraints
+continuation             = yes       ; Continuing from previous run
+
+energygrps = CGW CGT CGP

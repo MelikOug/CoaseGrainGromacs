@@ -1,0 +1,51 @@
+; Run control
+integrator              = md
+nsteps                  = 1000000   ; 2000 ps or 2ns
+dt                      = 0.002   ; 2 fs or 0.002ps
+
+
+; Output control
+nstxout                 = 0    ; Save coordinates every 2 ps
+nstvout                 = 0    ; Save velocities every 2 ps
+nstenergy               = 1000    ; Save energies every 2 ps
+nstlog                  = 1000    ; Update log file every 2 ps
+nstxout-compressed      = 1000     ; Save compressed coordinates every 0.2 ps
+
+; Bond parameters
+continuation            = no      ; Restarting after minimization
+constraint_algorithm    = lincs
+constraints             = all-bonds
+lincs_iter              = 1
+lincs_order             = 4
+
+; Neighbor searching
+ns_type                 = grid
+nstlist                 = 50
+rlist                   = 1.2
+rcoulomb                = 1.2
+rvdw                    = 1.2
+
+; Electrostatics
+coulombtype             = Cut-off
+pme_order               = 4
+fourierspacing          = 0.16
+
+; Temperature coupling
+tcoupl                  = V-rescale
+tc-grps                 = system
+tau_t                   = 0.1
+ref_t                   = 300
+
+; Pressure coupling
+pcoupl                  = no
+
+; Velocity generation
+gen_vel                 = yes
+gen_temp                = 300
+gen_seed                = -1
+
+; Define position restraints
+;define                  = -DPOSRES_CGP
+
+
+
