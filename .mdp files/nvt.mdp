@@ -44,8 +44,6 @@ gen_vel                 = yes
 gen_temp                = 300
 gen_seed                = -1
 
-; Define position restraints
-;define                  = -DPOSRES_CGP
 
 
 
