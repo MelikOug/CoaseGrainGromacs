@@ -50,6 +50,4 @@ DispCorr                 = EnerPres      ; Dispersion correction for energy and 
 ; Velocity generation
 gen_vel                 = no
 
-; Define position restraints
-;define                  = -DPOSRES_CGP
 
