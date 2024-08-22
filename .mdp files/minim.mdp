@@ -1,4 +1,3 @@
-;define = -DPOSRES_CGP
 ; minim.mdp - used as input into grompp to generate em.tpr
 integrator  = steep        ; Algorithm (steepest descent minimization)
 emtol       = 100          ; Stop minimization when the maximum force < 100.0 kJ/mol/nm
