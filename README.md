@@ -16,7 +16,7 @@ CRYST1   x(nm)  y(nm)  z(nm)  90.00  90.00  90.00 P 1           1
 ` section to match your setup. The only reason for the particular script name was because I was varying epsilons between particles at the time. 
 8. Running the .pbs file on the HPC should output energies (corresponding to the integers on line 61 and 84), pressure, volume and density during both equilbriation and the production run, as well as the radial distribution functions between a selected particle and a reference particle during production run.
 
-9. ### Process for running finding free energy of solvation of a mixture of two types of coarse grain particles:
+### Process for running finding free energy of solvation of a mixture of two types of coarse grain particles:
 ---
 The idea is taken from: https://tutorials.gromacs.org/docs/free-energy-of-solvation.html
 1. Repeat steps 1-5 as above, but produce a range of .pdb files that have different ratios of particle A:B for instance (1:999, 100:900, 500:500, 900:100, 999:1 etc.).
@@ -29,4 +29,5 @@ The idea is taken from: https://tutorials.gromacs.org/docs/free-energy-of-solvat
      * `barint.xvg` which is simply the cumulative version of the previous data
      * `histo.xvg` contains histograms of the  free energy distributions at adjacent lambda states.
 7. Summing $\Delta G (KT)$ across all the $\lambda$ points will give you the free energy of solvation for a particular ratio, which you can then use to plot the free energy of solvation as a function of particle ratios.
+
 
