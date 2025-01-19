@@ -1,0 +1,6 @@
+HEADER    Coarse-Grained Water Molecule
+TITLE     Single Coarse-Grained Water Molecule
+REMARK    This is a coarse-grained water molecule represented by a single bead
+ATOM      1  W   CGW     1       0.000   0.000   0.000  1.00  0.00           W
+TER
+END
