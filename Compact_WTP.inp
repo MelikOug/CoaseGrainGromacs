@@ -1,0 +1,19 @@
+tolerance 2.0
+filetype pdb
+output CG_WAT_TEA_P_compact.pdb
+
+structure CG_Water.pdb
+  number 1000
+  inside box 0. 0. 0. 60. 60. 60.
+end structure
+
+structure CG_TEA.pdb
+  number 1000
+  inside box 0. 0. 0. 60. 60. 60.
+end structure
+
+structure CG_Polymer.pdb
+  number 100
+  inside box 0.0 0.0 0.0 60.0 60.0 60.0
+end structure
+
