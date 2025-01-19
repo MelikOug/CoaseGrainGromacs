@@ -1,9 +1,9 @@
 #!/bin/bash
 
 #PBS -lwalltime=08:00:00
-#PBS -lselect=1:ncpus=16:mem=32gb
+#PBS -lselect=1:ncpus=8:mem=16gb
 
-#PBS -N gmxsim
+#PBS -N gmxsim_4045
 
 
 cd $PBS_O_WORKDIR
@@ -14,14 +14,11 @@ module load GROMACS/2021.5-foss-2021b
 
 
 
-# Define file names
-# Change these to appropriate names
-
-name="08_12"
-folder="eAP_eBP_tests/${name}"
-folder2="eAP_eBP_tests"
-
-input_structure="${folder2}/CG_WAT_TEA_P.pdb"
+# Define file and folder names
+name="40_45"
+folder="eAP_eBP_tests/liquid/${name}"
+folder2="eAP_eBP_tests/liquid"
+input_structure="${folder2}/CG_WAT_TEA_P_compact.pdb"
 input_topology="${folder}/WTP.top"
 minimisation_mdp="${folder2}/minim.mdp"
 nvt_mdp="${folder2}/nvt.mdp"
@@ -92,8 +89,9 @@ echo "Volume" | gmx  energy -f ${energy_file} -o ${volume_output}
 # Extract Density
 echo "Density" | gmx  energy -f ${energy_file} -o ${density_output} 
 
-# Extract RDF with respect to Polymer
+# Extract RDF
 gmx  rdf -f ${output_directory}/prod_run.trr -s ${output_directory}/prod_run.tpr -o ${output_directory}/rdf_PT_${name}.xvg  -selrpos whole_mol_com -seltype whole_mol_com -ref "CGP" -sel "CGT" -rmax 5 -bin 0.02 
 gmx  rdf -f ${output_directory}/prod_run.trr -s ${output_directory}/prod_run.tpr -o ${output_directory}/rdf_PW_${name}.xvg  -selrpos whole_mol_com -seltype whole_mol_com -ref "CGP" -sel "CGW" -rmax 5 -bin 0.02 
 
 echo "Extraction completed successfully."
+
