@@ -1,0 +1,31 @@
+# This file was created Thu Aug 29 20:11:17 2024
+# Created by:
+#               :-) GROMACS - gmx bar, 2021.5-EasyBuild-4.7.0 (-:
+# 
+# Executable:   /sw-eb/software/GROMACS/2021.5-foss-2021b/bin/gmx
+# Data prefix:  /sw-eb/software/GROMACS/2021.5-foss-2021b
+# Working dir:  /rds/general/user/mdo21/home
+# Command line:
+#   gmx bar -f Lambda/liquid/25_30/101-900/Lambda_Files/lambda_0.xvg Lambda/liquid/25_30/101-900/Lambda_Files/lambda_1.xvg Lambda/liquid/25_30/101-900/Lambda_Files/lambda_2.xvg Lambda/liquid/25_30/101-900/Lambda_Files/lambda_3.xvg Lambda/liquid/25_30/101-900/Lambda_Files/lambda_4.xvg Lambda/liquid/25_30/101-900/Lambda_Files/lambda_5.xvg Lambda/liquid/25_30/101-900/Lambda_Files/lambda_6.xvg Lambda/liquid/25_30/101-900/Lambda_Files/lambda_7.xvg Lambda/liquid/25_30/101-900/Lambda_Files/lambda_8.xvg Lambda/liquid/25_30/101-900/Lambda_Files/lambda_9.xvg Lambda/liquid/25_30/101-900/Lambda_Files/lambda_10.xvg Lambda/liquid/25_30/101-900/Lambda_Files/lambda_11.xvg Lambda/liquid/25_30/101-900/Lambda_Files/lambda_12.xvg Lambda/liquid/25_30/101-900/Lambda_Files/lambda_13.xvg Lambda/liquid/25_30/101-900/Lambda_Files/lambda_14.xvg -o Lambda/liquid/25_30/101-900/bar.xvg -oi Lambda/liquid/25_30/101-900/barint.xvg -oh Lambda/liquid/25_30/101-900/histo.xvg -prec 8
+# gmx bar is part of G R O M A C S:
+#
+# Georgetown Riga Oslo Madrid Amsterdam Chisinau Stockholm
+#
+@    title "Free energy differences"
+@    xaxis  label "\xl\f{}"
+@    yaxis  label "\xD\f{}G (kT)"
+@TYPE xydy
+ 0.500  6.05467375  0.02780007
+ 1.500 18.59024740  0.02820632
+ 2.500 30.66826984  0.05507283
+ 3.500 38.12471528  0.15127134
+ 4.500 15.15045355  7.27940455
+ 5.500 -28.86067942  3.97902360
+ 6.500 -48.36395998  0.27930001
+ 7.500 -59.35580161  0.16873581
+ 8.500 -66.25306550  0.14067838
+ 9.500 -71.15354587  0.04742630
+10.500 -37.18678623  0.01802817
+11.500 -38.07160828  0.02294939
+12.500 -38.95091850  0.01789450
+13.500 -39.72411722  0.03083493

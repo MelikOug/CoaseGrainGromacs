@@ -1,0 +1,6 @@
+HEADER    Coarse-Grained TEA Molecule
+TITLE     Single Coarse-Grained TEA Molecule
+REMARK    This is a coarse-grained TEA molecule represented by a single bead
+ATOM      1  T   CGT     1       0.000   0.000   0.000  1.00  0.00           T
+TER
+END
